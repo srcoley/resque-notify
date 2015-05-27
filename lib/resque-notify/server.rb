@@ -7,8 +7,6 @@ require File.expand_path(File.join('../','resque_notify_helper'), File.dirname(_
 module ResqueNotify
   module Server
 
-    set :views, File.join(File.dirname(__FILE__), 'server', 'views')
-
     def self.public_path(filename)
       File.join(File.dirname(__FILE__), 'server', 'public', filename)
     end
@@ -28,5 +26,11 @@ end
 
 Resque.extend ResqueNotify
 Resque::Server.class_eval do
+  set :views, File.join(File.dirname(__FILE__), 'server', 'views')
+
+  get "/failed.poll/?" do
+    show_for_polling('failed')
+  end
+
   include ResqueNotify::Server
 end
