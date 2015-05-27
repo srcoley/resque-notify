@@ -25,7 +25,23 @@ end
 
 Resque.extend ResqueNotify
 Resque::Server.class_eval do
-  set :views, File.join(File.dirname(__FILE__), 'server', 'views')
+  set :views, [settings.views, File.join(File.dirname(__FILE__), 'server', 'views')]
+
+  helpers do
+    def find_template(views, name, engine, &block)
+      views.each { |v| super(v, name, engine, &block) }
+    end
+  end
+
+
+  def show(page, layout = :'notify-layout')
+    response["Cache-Control"] = "max-age=0, private, must-revalidate"
+    begin
+      erb page.to_sym, {:layout => layout}, :resque => Resque
+    rescue Errno::ECONNREFUSED
+      erb :error, {:layout => false}, :error => "Can't connect to Redis! (#{Resque.redis_id})"
+    end
+  end
 
   get "/failed.poll/?" do
     show_for_polling('failed')
