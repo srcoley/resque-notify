@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{A Resque plugin that sends desktop notifications when a job fails}
   s.description = %q{A Resque plugin that sends desktop notifications when a job fails}
 
-  s.files         = ['lib/resque-notify.rb']
+  s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
 
   s.add_dependency('resque', '>= 1.9.10')
