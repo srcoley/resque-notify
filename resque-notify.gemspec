@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/srcoley/resque-notify"
   s.summary     = %q{A Resque plugin that sends desktop notifications when a job fails}
   s.description = %q{A Resque plugin that sends desktop notifications when a job fails}
+  s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
